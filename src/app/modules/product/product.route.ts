@@ -7,18 +7,20 @@ import { ProductController } from './product.controller';
 const router = Router();
 
 router.post(
-  '/',
+  '/create',
   verifyRole('user', 'moderator', 'admin'),
-  ValidateRequest(ProductValidation.createProductSchema),
-  ProductController.getAllProducts,
+  ValidateRequest(ProductValidation.createProductZodSchema),
+  ProductController.createProduct,
 );
 router.get(
   '/:id',
   verifyRole('user', 'moderator', 'admin'),
-  ProductController.getAllProducts,
+  ProductController.getSingleProduct,
 );
 router.get(
   '/',
   verifyRole('user', 'moderator', 'admin'),
   ProductController.getAllProducts,
 );
+
+export const ProductRoutes = router;
