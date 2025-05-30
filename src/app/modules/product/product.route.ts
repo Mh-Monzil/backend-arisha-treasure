@@ -22,5 +22,11 @@ router.get(
   verifyRole('user', 'moderator', 'admin'),
   ProductController.getAllProducts,
 );
+router.patch(
+  '/:id',
+  verifyRole('moderator', 'admin'),
+  ValidateRequest(ProductValidation.updateProductZodSchema),
+  ProductController.updateProduct,
+);
 
 export const ProductRoutes = router;
