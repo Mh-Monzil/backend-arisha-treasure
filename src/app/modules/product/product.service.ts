@@ -16,11 +16,6 @@ const getSingleProductFromDB = async (id: string) => {
   return result;
 };
 
-const getProductByCategoryFromDB = async (category: string) => {
-  const result = await productModel.find({ category }).lean();
-  return result;
-};
-
 const updateProductIntoDB = async (id: string, payload: Partial<IProduct>) => {
   const result = await productModel.findByIdAndUpdate(id, payload, {
     new: true,
@@ -43,7 +38,6 @@ export const ProductService = {
   createProductIntoDB,
   getAllProductsFromDB,
   getSingleProductFromDB,
-  getProductByCategoryFromDB,
   updateProductIntoDB,
   deleteProductFromDB,
 };

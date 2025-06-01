@@ -14,13 +14,6 @@ router.post(
 );
 
 //get
-//get product by category
-router.get(
-  '/category/:category',
-  verifyRole('user', 'moderator', 'admin'),
-  ProductController.getProductByCategory,
-);
-
 router.get(
   '/:id',
   verifyRole('user', 'moderator', 'admin'),
