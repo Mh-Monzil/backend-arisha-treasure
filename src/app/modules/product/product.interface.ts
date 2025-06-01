@@ -1,10 +1,16 @@
+import { Express, Request } from 'express';
+
 export interface IProduct {
   title: string;
   description: string;
   price: number;
-  image: string[];
+  images: string[];
   category: string;
   stock: number;
   discount: number;
-  isDeleted: boolean;
+  isDeleted?: boolean;
+}
+
+export interface MulterRequest extends Request {
+  files: Express.Multer.File[];
 }

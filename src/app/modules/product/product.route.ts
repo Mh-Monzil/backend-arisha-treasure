@@ -3,12 +3,14 @@ import { verifyRole } from '../../middlewares/VerifyRole';
 import ValidateRequest from '../../middlewares/ValidateRequest';
 import { ProductValidation } from './product.validation';
 import { ProductController } from './product.controller';
+import upload from '../../middlewares/multer';
 
 const router = Router();
 
 router.post(
   '/create',
   verifyRole('user', 'moderator', 'admin'),
+  upload.array('images', 4),
   ValidateRequest(ProductValidation.createProductZodSchema),
   ProductController.createProduct,
 );
