@@ -35,6 +35,17 @@ const getSingleProduct = catchAsync(async (req, res) => {
   });
 });
 
+const getProductByCategory = catchAsync(async (req, res) => {
+  const result = await ProductService.getProductByCategory(req.params.category);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Product retrieved successfully',
+    data: result,
+  });
+});
+
 const updateProduct = catchAsync(async (req, res) => {
   const result = await ProductService.updateProductIntoDB(
     req.params.id,
@@ -49,9 +60,22 @@ const updateProduct = catchAsync(async (req, res) => {
   });
 });
 
+const deleteProduct = catchAsync(async (req, res) => {
+  const result = await ProductService.deleteProductFromDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Product deleted successfully',
+    data: result,
+  });
+});
+
 export const ProductController = {
   createProduct,
   getAllProducts,
   getSingleProduct,
+  getProductByCategory,
   updateProduct,
+  deleteProduct,
 };

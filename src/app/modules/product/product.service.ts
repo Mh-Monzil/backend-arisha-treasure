@@ -16,10 +16,26 @@ const getSingleProductFromDB = async (id: string) => {
   return result;
 };
 
+const getProductByCategoryFromDB = async (category: string) => {
+  const result = await productModel.find({ category }).lean();
+  return result;
+};
+
 const updateProductIntoDB = async (id: string, payload: Partial<IProduct>) => {
-  const result = await productModel.findOneAndUpdate({ _id: id }, payload, {
+  const result = await productModel.findByIdAndUpdate(id, payload, {
     new: true,
   });
+  return result;
+};
+
+const deleteProductFromDB = async (id: string) => {
+  const result = await productModel.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    {
+      new: true,
+    },
+  );
   return result;
 };
 
@@ -27,5 +43,7 @@ export const ProductService = {
   createProductIntoDB,
   getAllProductsFromDB,
   getSingleProductFromDB,
+  getProductByCategoryFromDB,
   updateProductIntoDB,
+  deleteProductFromDB,
 };

@@ -10,6 +10,7 @@ const productSchema = new Schema<IProduct>(
     category: { type: String, required: true },
     stock: { type: Number, required: true },
     discount: { type: Number, required: true },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

@@ -12,6 +12,15 @@ router.post(
   ValidateRequest(ProductValidation.createProductZodSchema),
   ProductController.createProduct,
 );
+
+//get
+//get product by category
+router.get(
+  '/category/:category',
+  verifyRole('user', 'moderator', 'admin'),
+  ProductController.getProductByCategory,
+);
+
 router.get(
   '/:id',
   verifyRole('user', 'moderator', 'admin'),
@@ -22,11 +31,16 @@ router.get(
   verifyRole('user', 'moderator', 'admin'),
   ProductController.getAllProducts,
 );
+
+//update
 router.patch(
   '/:id',
   verifyRole('moderator', 'admin'),
   ValidateRequest(ProductValidation.updateProductZodSchema),
   ProductController.updateProduct,
 );
+
+//delete
+router.delete('/:id', verifyRole('admin'), ProductController.deleteProduct);
 
 export const ProductRoutes = router;
