@@ -6,6 +6,12 @@ const createCategoryIntoDB = async (category: ICategory) => {
   return result;
 };
 
+const getAllCategoriesFromDB = async () => {
+  const result = await categoryModel.find({}).lean();
+  return result;
+};
+
 export const CategoryService = {
   createCategoryIntoDB,
+  getAllCategoriesFromDB,
 };
