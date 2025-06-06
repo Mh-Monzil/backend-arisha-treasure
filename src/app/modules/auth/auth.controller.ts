@@ -16,7 +16,11 @@ const createUser = catchAsync(async (req, res) => {
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthService.loginUserIntoDB(req.body);
 
-  res.cookie('token', result, { httpOnly: true });
+  res.cookie('token', result, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
 
   sendResponse(res, {
     statusCode: 200,
