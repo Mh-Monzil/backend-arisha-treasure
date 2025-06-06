@@ -14,7 +14,7 @@ const getAllOrdersFromDB = async (query: Record<string, unknown>) => {
     orderModel
       .find({ isDeleted: false })
       .populate('user', '-password -__v')
-      .populate('orderItems', '-__v'),
+      .populate('orderItems.productId', '-__v'),
     query,
   )
     .search(orderSearchableFields)

@@ -79,12 +79,15 @@ const orderSchema = new Schema<IOrder>(
           type: Schema.Types.ObjectId,
           ref: 'Product',
           required: [true, 'Order must include at least one item'],
+          _id: false,
         },
         quantity: {
           type: Number,
           required: true,
           default: 1,
+          _id: false,
         },
+        _id: false,
       },
     ],
     paymentMethod: {
