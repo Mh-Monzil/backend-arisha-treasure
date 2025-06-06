@@ -1,5 +1,6 @@
-import { model, Schema } from 'mongoose';
-import { IOrder } from './order.interface';
+import { CallbackError, model, Schema } from 'mongoose';
+import { IOrder, IOrderItem } from './order.interface';
+import { productModel } from '../product/product.model';
 
 const counterSchema = new Schema({
   name: {
@@ -74,9 +75,16 @@ const orderSchema = new Schema<IOrder>(
     },
     orderItems: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Product',
-        required: [true, 'Order must include at least one item'],
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: [true, 'Order must include at least one item'],
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          default: 1,
+        },
       },
     ],
     paymentMethod: {
@@ -102,6 +110,22 @@ orderSchema.pre('save', async function (next) {
   );
   this.orderId = counter.count.toString().padStart(5, '0');
   next();
+});
+
+orderSchema.post('save', async function (doc, next) {
+  try {
+    const updates = doc.orderItems.map((item: IOrderItem) => {
+      return productModel.findByIdAndUpdate(
+        item.productId,
+        { $inc: { stock: -item.quantity, sales: item.quantity } },
+        { new: true },
+      );
+    });
+    await Promise.all(updates);
+    next();
+  } catch (error) {
+    next(error as CallbackError);
+  }
 });
 
 export const orderModel = model<IOrder>('Order', orderSchema);

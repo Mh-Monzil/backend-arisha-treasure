@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { Types } from 'mongoose';
 
+const orderItemSchema = z.object({
+  productId: z.string().min(1, 'Product ID is required'),
+  quantity: z.number().int().min(1, 'Quantity must be at least 1'),
+});
+
 const createOrderZodSchema = z.object({
   body: z.object({
     user: z
@@ -24,11 +29,9 @@ const createOrderZodSchema = z.object({
       country: z.string().min(1, 'Country is required'),
       zipCode: z.string().optional(),
     }),
-    orderItems: z.array(
-      z.string().refine((val) => Types.ObjectId.isValid(val), {
-        message: 'Invalid ObjectId in orderItems',
-      }),
-    ),
+    orderItems: z
+      .array(orderItemSchema)
+      .min(1, 'At least one order item is required'),
     paymentMethod: z.literal('cash on delivery'),
     isDeleted: z.boolean().optional(),
   }),
@@ -53,13 +56,7 @@ const updateOrderZodSchema = z.object({
         zipCode: z.string().optional(),
       })
       .optional(),
-    orderItems: z
-      .array(
-        z.string().refine((val) => Types.ObjectId.isValid(val), {
-          message: 'Invalid ObjectId in orderItems',
-        }),
-      )
-      .optional(),
+    orderItems: z.array(orderItemSchema.optional()).optional(),
     paymentMethod: z.literal('cash on delivery').optional(),
     isDeleted: z.boolean().optional(),
   }),

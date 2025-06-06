@@ -1,5 +1,10 @@
 import { Document, Types } from 'mongoose';
 
+export interface IOrderItem {
+  productId: Types.ObjectId;
+  quantity: number;
+}
+
 export interface IOrder extends Document {
   orderId?: string;
   user?: Types.ObjectId;
@@ -16,7 +21,7 @@ export interface IOrder extends Document {
     country: string;
     zipCode?: string;
   };
-  orderItems: Types.ObjectId[];
+  orderItems: IOrderItem[];
   paymentMethod: 'cash on delivery';
   isDeleted?: boolean;
 }

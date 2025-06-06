@@ -7,6 +7,7 @@ export interface IProduct {
   images: string[];
   category: string;
   stock: number;
+  sales?: number;
   discount: number;
   isDeleted?: boolean;
 }
