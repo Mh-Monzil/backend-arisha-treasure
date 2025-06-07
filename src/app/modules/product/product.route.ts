@@ -10,7 +10,7 @@ const router = Router();
 router.post(
   '/create',
   verifyRole('user', 'moderator', 'admin'),
-  upload.array('images', 4),
+  upload.array('images'),
   ValidateRequest(ProductValidation.createProductZodSchema),
   ProductController.createProduct,
 );

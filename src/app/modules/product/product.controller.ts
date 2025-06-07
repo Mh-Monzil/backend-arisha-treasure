@@ -7,9 +7,9 @@ import { ProductService } from './product.service';
 import fs from 'fs';
 
 const createProduct = catchAsync(async (req, res) => {
-  const result = await ProductService.createProductIntoDB(req.body);
   try {
-    const { title, description, price, category, stock, discount } = req.body;
+    const { title, description, price, category, stock, sales, discount } =
+      req.body;
     const files = (req as MulterRequest).files;
 
     const imgUrls: string[] = [];
@@ -28,6 +28,7 @@ const createProduct = catchAsync(async (req, res) => {
       price: Number(price),
       category,
       stock: Number(stock),
+      sales: Number(sales),
       discount: Number(discount),
       images: imgUrls,
     };
@@ -43,13 +44,6 @@ const createProduct = catchAsync(async (req, res) => {
   } catch (error) {
     throw new AppError(400, 'Something went wrong');
   }
-
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: 'Product created successfully',
-    data: result,
-  });
 });
 
 const getAllProducts = catchAsync(async (req, res) => {
