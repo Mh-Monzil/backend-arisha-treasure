@@ -18,8 +18,8 @@ const loginUser = catchAsync(async (req, res) => {
 
   res.cookie('token', result, {
     httpOnly: true,
-    // secure: true,
-    // sameSite: 'none',
+    secure: true,
+    sameSite: 'none',
   });
 
   sendResponse(res, {
