@@ -56,7 +56,24 @@ const updateOrderZodSchema = z.object({
         zipCode: z.string().optional(),
       })
       .optional(),
-    orderItems: z.array(orderItemSchema.optional()).optional(),
+    orderItems: z
+      .array(
+        z.object({
+          productId: z.object({
+            _id: z.string().optional(),
+            title: z.string().optional(),
+            price: z.number().optional(),
+            images: z.array(z.string()).optional(),
+            category: z.string().optional(),
+            stock: z.number().optional(),
+            sales: z.number().optional(),
+            discount: z.number().optional(),
+            description: z.string().optional(),
+          }),
+          quantity: z.number().int().min(1, 'Quantity must be at least 1'),
+        }),
+      )
+      .optional(),
     paymentMethod: z.literal('cash on delivery').optional(),
     isDeleted: z.boolean().optional(),
   }),

@@ -26,7 +26,7 @@ const createProduct = catchAsync(async (req, res) => {
       title,
       description,
       price: Number(price),
-      category,
+      category: String(category.toLowerCase()),
       stock: Number(stock),
       sales: Number(sales),
       discount: Number(discount),

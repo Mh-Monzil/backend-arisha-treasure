@@ -9,12 +9,13 @@ const createProductIntoDB = async (payload: IProduct) => {
 };
 
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
-  const productQuery = new QueryBuilder(productModel.find(), query)
+  const productQuery = new QueryBuilder(
+    productModel.find({ isDeleted: false }),
+    query,
+  )
     .search(productSearchableFields)
     .filter()
-    .sort()
-    .paginate()
-    .fields();
+    .sort();
 
   const result = await productQuery.modelQuery.lean();
   return result;
