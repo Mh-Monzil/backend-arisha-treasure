@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { IReview } from './review.interface';
+import { productModel } from '../product/product.model';
 
 const reviewSchema = new Schema<IReview>(
   {
@@ -33,5 +34,16 @@ const reviewSchema = new Schema<IReview>(
     timestamps: true,
   },
 );
+
+reviewSchema.post('save', async function (doc) {
+  const productId = doc.product;
+  const reviews = await reviewModel.find({ product: productId });
+
+  const ratingCount = reviews.length;
+  const ratingSum = reviews.reduce((acc, r) => acc + r.rating, 0);
+  const rating = ratingSum / ratingCount;
+
+  await productModel.findByIdAndUpdate(productId, { rating, ratingCount });
+});
 
 export const reviewModel = model<IReview>('Review', reviewSchema);

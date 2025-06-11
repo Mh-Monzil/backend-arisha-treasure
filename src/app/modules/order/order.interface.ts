@@ -13,7 +13,7 @@ export interface IOrder extends Document {
   phoneNumber: string;
   totalPrice: number;
   discount: number;
-  status: 'pending' | 'processing' | 'delivered' | 'cancelled';
+  status?: 'pending' | 'processing' | 'delivered' | 'cancelled';
   shippingAddress: {
     street: string;
     city: string;

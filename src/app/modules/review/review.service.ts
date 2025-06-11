@@ -9,6 +9,7 @@ const createReviewIntoDB = async (payload: IReview) => {
 const getReviewsByProductIdFromDB = async (productId: string) => {
   const result = await reviewModel
     .find({ product: productId, isDeleted: false })
+    .populate('user', '-password -__v')
     .lean();
   return result;
 };

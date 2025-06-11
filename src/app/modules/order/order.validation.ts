@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { Types } from 'mongoose';
 
 const orderItemSchema = z.object({
   productId: z.string().min(1, 'Product ID is required'),
@@ -8,12 +7,7 @@ const orderItemSchema = z.object({
 
 const createOrderZodSchema = z.object({
   body: z.object({
-    user: z
-      .string()
-      .optional()
-      .refine((val) => Types.ObjectId.isValid(val!), {
-        message: 'Invalid user ObjectId',
-      }),
+    user: z.string().optional(),
     name: z.string().min(1, 'Name is required'),
     email: z.string().email('Invalid email address'),
     phoneNumber: z.string().min(5, 'Phone number is required'),
@@ -21,7 +15,9 @@ const createOrderZodSchema = z.object({
       .number()
       .nonnegative('Total price must be a non-negative number'),
     discount: z.number().nonnegative('Discount must be a non-negative number'),
-    status: z.enum(['pending', 'processing', 'delivered', 'cancelled']),
+    status: z
+      .enum(['pending', 'processing', 'delivered', 'cancelled'])
+      .optional(),
     shippingAddress: z.object({
       street: z.string().min(1, 'Street is required'),
       city: z.string().min(1, 'City is required'),

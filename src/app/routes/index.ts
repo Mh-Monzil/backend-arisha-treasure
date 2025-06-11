@@ -26,7 +26,7 @@ const moduleRoutes = [
     route: ProductRoutes,
   },
   {
-    path: '/review',
+    path: '/reviews',
     route: ReviewRoutes,
   },
   {
