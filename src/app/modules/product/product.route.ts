@@ -21,11 +21,7 @@ router.get(
   verifyRole('user', 'moderator', 'admin'),
   ProductController.getSingleProduct,
 );
-router.get(
-  '/',
-  verifyRole('user', 'moderator', 'admin'),
-  ProductController.getAllProducts,
-);
+router.get('/', ProductController.getAllProducts);
 
 //update
 router.patch(
